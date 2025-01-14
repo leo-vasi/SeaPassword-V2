@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../dao/UserDAO.php';
 require_once __DIR__ . '/../dao/PlanDAO.php';
+require_once __DIR__ . '/../dao/PaymentDAO.php';
 
 $userDAO = new UserDAO();
 $users = $userDAO->getAllUsers();
@@ -28,6 +29,23 @@ foreach ($plans as $plan) {
     echo '</p>';
 }
 
+$paymentDAO = new PaymentDAO();
+$payments = $paymentDAO->getAllPayments();
+
+echo '<h1>All Payments</h1>';
+foreach ($payments as $payment) {
+    echo '<p>';
+    echo 'ID: ' . $payment->getId() . '<br>';
+    echo 'Plan: ' . $payment->getPlan()->getName() . '<br>';
+    echo 'User: ' . $payment->getUser()->getName() . '<br>';
+    echo 'Card Number: ' . $payment->getCardNumber() . '<br>';
+    echo 'Agency: ' . $payment->getAgency() . '<br>';
+    echo 'Security Code: ' . $payment->getSecurityCode() . '<br>';
+    echo 'CPF: ' . $payment->getCpfNumber() . '<br>';
+    echo 'Card Expiration: ' . $payment->getCardExpiration()->format('Y-m-d H:i:s') . '<br>';
+    echo 'Payment Date: ' . $payment->getPaymentDate()->format('Y-m-d H:i:s') . '<br>';
+    echo '</p>';
+}
 
 
 ?>
