@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../dao/UserDAO.php';
 require_once __DIR__ . '/../dao/PlanDAO.php';
 require_once __DIR__ . '/../dao/PaymentDAO.php';
+require_once __DIR__ . '/../dao/StorageDAO.php';
 
 $userDAO = new UserDAO();
 $users = $userDAO->getAllUsers();
@@ -47,5 +48,18 @@ foreach ($payments as $payment) {
     echo '</p>';
 }
 
+$storageDAO = new StorageDAO();
+$storages = $storageDAO->getAllStorages();
+
+echo '<h1>All Storages</h1>';
+foreach ($storages as $storage) {
+    echo '<p>';
+    echo 'ID: ' . $storage->getId() . '<br>';
+    echo 'User: ' . $storage->getUser()->getName() . '<br>';
+    echo 'Description: ' . $storage->getDescriptionStrg() . '<br>';
+    echo 'Email: ' . $storage->getEmailStrg() . '<br>';
+    echo 'Password: ' . $storage->getPasswordStrg() . '<br>';
+    echo '</p>';
+}
 
 ?>

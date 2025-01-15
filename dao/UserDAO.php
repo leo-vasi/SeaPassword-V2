@@ -26,6 +26,19 @@ class UserDAO {
         }
         return $users;
     }
+
+    public function getUserById(int $id): ?User {
+        $query = 'SELECT * FROM users WHERE user_id = ?';
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($row = $result->fetch_assoc()) {
+            return new User($row['user_id'], $row['user_name'], $row['user_email'], $row['user_password']);
+        }
+        return null;
+    }
+
 }
 
 ?>
