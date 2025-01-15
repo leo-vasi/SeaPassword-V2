@@ -1,9 +1,9 @@
 <?php
 
 require_once __DIR__ . '/../config/ConnectionFactory.php';
-require_once __DIR__ . '/../entities/Payment.php';
-require_once __DIR__ . '/../entities/User.php';
-require_once __DIR__ . '/../entities/Plan.php';
+require_once __DIR__ . '/../model/Payment.php';
+require_once __DIR__ . '/../model/User.php';
+require_once __DIR__ . '/../model/Plan.php';
 
 class PaymentDAO {
     private $connection;

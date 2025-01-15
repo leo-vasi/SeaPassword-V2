@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../config/ConnectionFactory.php';
-require_once __DIR__ . '/../entities/Storage.php';
+require_once __DIR__ . '/../model/Storage.php';
 require_once __DIR__ . '/../dao/UserDAO.php';
 
 class StorageDAO {

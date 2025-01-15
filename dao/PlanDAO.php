@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../config/ConnectionFactory.php';
-require_once __DIR__ . '/../entities/Plan.php';
+require_once __DIR__ . '/../model/Plan.php';
 
 class PlanDAO {
     private $connection;
