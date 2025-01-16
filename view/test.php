@@ -1,12 +1,11 @@
 <?php
 
 require_once __DIR__ . '/../controller/UserController.php';
-require_once __DIR__ . '/../dao/PlanDAO.php';
+require_once __DIR__ . '/../controller/PlanController.php';
 require_once __DIR__ . '/../dao/PaymentDAO.php';
 require_once __DIR__ . '/../dao/StorageDAO.php';
 
 $userController = new UserController();
-
 echo '<h1>All Users</h1>';
 $users = $userController->getAllUsers();
 foreach ($users as $user) {
@@ -17,10 +16,9 @@ foreach ($users as $user) {
     echo '</p>';
 }
 
-$planDAO = new PlanDAO();
-$plans = $planDAO->getAllPlans();
-
+$planController = new PlanController();
 echo '<h1>All Plans</h1>';
+$plans = $planController->getAllPlans();
 foreach ($plans as $plan) {
     echo '<p>';
     echo 'ID: ' . $plan->getId() . '<br>';
