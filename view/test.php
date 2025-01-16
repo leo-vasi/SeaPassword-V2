@@ -8,56 +8,82 @@ require_once __DIR__ . '/../controller/StorageController.php';
 $userController = new UserController();
 echo '<h1>All Users</h1>';
 $users = $userController->getAllUsers();
+echo '<table border="1" style="width:100%; text-align:left; margin-bottom:20px;">';
+echo '<tr><th>ID</th><th>Name</th><th>Email</th><th>Actions</th></tr>';
 foreach ($users as $user) {
-    echo '<p>';
-    echo 'ID: ' . $user->getId() . '<br>';
-    echo 'Name: ' . $user->getName() . '<br>';
-    echo 'Email: ' . $user->getEmail() . '<br>';
-    echo '</p>';
+    echo '<tr>';
+    echo '<td>' . $user->getId() . '</td>';
+    echo '<td>' . $user->getName() . '</td>';
+    echo '<td>' . $user->getEmail() . '</td>';
+    echo '<td>';
+    echo '<button>Edit</button>';
+    echo '<button>Delete</button>';
+    echo '</td>';
+    echo '</tr>';
 }
+echo '</table>';
 
 $planController = new PlanController();
 echo '<h1>All Plans</h1>';
 $plans = $planController->getAllPlans();
+echo '<table border="1" style="width:100%; text-align:left; margin-bottom:20px;">';
+echo '<tr><th>ID</th><th>Name</th><th>Price</th><th>Storage Quantity</th><th>Actions</th></tr>';
 foreach ($plans as $plan) {
-    echo '<p>';
-    echo 'ID: ' . $plan->getId() . '<br>';
-    echo 'Name: ' . $plan->getName() . '<br>';
-    echo 'Price: ' . $plan->getPrice() . '<br>';
-    echo 'Storage Quantity: ' . $plan->getStorageQtd() . '<br>';
-    echo '</p>';
+    echo '<tr>';
+    echo '<td>' . $plan->getId() . '</td>';
+    echo '<td>' . $plan->getName() . '</td>';
+    echo '<td>' . $plan->getPrice() . '</td>';
+    echo '<td>' . $plan->getStorageQtd() . '</td>';
+    echo '<td>';
+    echo '<button>Edit</button>';
+    echo '<button>Delete</button>';
+    echo '</td>';
+    echo '</tr>';
 }
-
+echo '</table>';
 
 $paymentController = new PaymentController();
 echo '<h1>All Payments</h1>';
 $payments = $paymentController->getAllPayments();
+echo '<table border="1" style="width:100%; text-align:left; margin-bottom:20px;">';
+echo '<tr><th>ID</th><th>Plan</th><th>User</th><th>Card Number</th><th>Agency</th><th>Security Code</th><th>CPF</th><th>Card Expiration</th><th>Payment Date</th><th>Actions</th></tr>';
 foreach ($payments as $payment) {
-    echo '<p>';
-    echo 'ID: ' . $payment->getId() . '<br>';
-    echo 'Plan: ' . $payment->getPlan()->getName() . '<br>';
-    echo 'User: ' . $payment->getUser()->getName() . '<br>';
-    echo 'Card Number: ' . $payment->getCardNumber() . '<br>';
-    echo 'Agency: ' . $payment->getAgency() . '<br>';
-    echo 'Security Code: ' . $payment->getSecurityCode() . '<br>';
-    echo 'CPF: ' . $payment->getCpfNumber() . '<br>';
-    echo 'Card Expiration: ' . $payment->getCardExpiration()->format('Y-m-d H:i:s') . '<br>';
-    echo 'Payment Date: ' . $payment->getPaymentDate()->format('Y-m-d H:i:s') . '<br>';
-    echo '</p>';
+    echo '<tr>';
+    echo '<td>' . $payment->getId() . '</td>';
+    echo '<td>' . $payment->getPlan()->getName() . '</td>';
+    echo '<td>' . $payment->getUser()->getName() . '</td>';
+    echo '<td>' . $payment->getCardNumber() . '</td>';
+    echo '<td>' . $payment->getAgency() . '</td>';
+    echo '<td>' . $payment->getSecurityCode() . '</td>';
+    echo '<td>' . $payment->getCpfNumber() . '</td>';
+    echo '<td>' . $payment->getCardExpiration()->format('Y-m-d H:i:s') . '</td>';
+    echo '<td>' . $payment->getPaymentDate()->format('Y-m-d H:i:s') . '</td>';
+    echo '<td>';
+    echo '<button>Edit</button>';
+    echo '<button>Delete</button>';
+    echo '</td>';
+    echo '</tr>';
 }
-
+echo '</table>';
 
 $storageController = new StorageController();
 echo '<h1>All Storages</h1>';
 $storages = $storageController->getAllStorages();
+echo '<table border="1" style="width:100%; text-align:left; margin-bottom:20px;">';
+echo '<tr><th>ID</th><th>User</th><th>Description</th><th>Email</th><th>Password</th><th>Actions</th></tr>';
 foreach ($storages as $storage) {
-    echo '<p>';
-    echo 'ID: ' . $storage->getId() . '<br>';
-    echo 'User: ' . $storage->getUser()->getName() . '<br>';
-    echo 'Description: ' . $storage->getDescriptionStrg() . '<br>';
-    echo 'Email: ' . $storage->getEmailStrg() . '<br>';
-    echo 'Password: ' . $storage->getPasswordStrg() . '<br>';
-    echo '</p>';
+    echo '<tr>';
+    echo '<td>' . $storage->getId() . '</td>';
+    echo '<td>' . $storage->getUser()->getName() . '</td>';
+    echo '<td>' . $storage->getDescriptionStrg() . '</td>';
+    echo '<td>' . $storage->getEmailStrg() . '</td>';
+    echo '<td>' . $storage->getPasswordStrg() . '</td>';
+    echo '<td>';
+    echo '<button>Edit</button>';
+    echo '<button>Delete</button>';
+    echo '</td>';
+    echo '</tr>';
 }
+echo '</table>';
 
 ?>
