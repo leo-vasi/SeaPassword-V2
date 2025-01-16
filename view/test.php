@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../controller/UserController.php';
 require_once __DIR__ . '/../controller/PlanController.php';
 require_once __DIR__ . '/../dao/PaymentDAO.php';
-require_once __DIR__ . '/../dao/StorageDAO.php';
+require_once __DIR__ . '/../controller/StorageController.php';
 
 $userController = new UserController();
 echo '<h1>All Users</h1>';
@@ -46,10 +46,10 @@ foreach ($payments as $payment) {
     echo '</p>';
 }
 
-$storageDAO = new StorageDAO();
-$storages = $storageDAO->getAllStorages();
 
+$storageController = new StorageController();
 echo '<h1>All Storages</h1>';
+$storages = $storageController->getAllStorages();
 foreach ($storages as $storage) {
     echo '<p>';
     echo 'ID: ' . $storage->getId() . '<br>';
