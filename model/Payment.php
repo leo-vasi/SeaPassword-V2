@@ -60,6 +60,42 @@ class Payment {
     public function getPaymentDate(): DateTime {
         return $this-> paymentDate;
     }
+
+    public function setId(int $id): void {
+        $this-> id = $id;
+    }
+
+    public function setPlan(Plan $plan): void {
+        $this-> plan = $plan;
+    }
+
+    public function setUser(User $user): void {
+        $this-> user = $user;
+    }
+
+    public function setCardNumber(string $cardNumber): void {
+        $this-> cardNumber = $cardNumber;
+    }
+
+    public function setAgency(string $agency): void {
+        $this-> agency = $agency;
+    }
+
+    public function setSecurityCode(string $securityCode): void {
+        $this-> securityCode = $securityCode;
+    }
+
+    public function setCpfNumber(string $cpfNumber): void {
+        $this-> cpfNumber = $cpfNumber;
+    }
+
+    public function setCardExpiration(DateTime $cardExpiration): void {
+        $this-> cardExpiration = $cardExpiration;
+    }
+
+    public function setPaymentDate(DateTime $paymentDate): void {
+        $this-> paymentDate = $paymentDate;
+    }
 }
 
 ?>

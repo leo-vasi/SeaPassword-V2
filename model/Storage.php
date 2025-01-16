@@ -34,6 +34,26 @@ class Storage {
     public function getPasswordStrg(): string {
         return $this-> passwordStrg;
     }
+
+    public function setId(int $id): void {
+        $this-> id = $id;
+    }
+
+    public function setUser(User $user): void {
+        $this-> user = $user;
+    }
+
+    public function setDescriptionStrg(string $descriptionStrg): void {
+        $this-> descriptionStrg = $descriptionStrg;
+    }
+
+    public function setEmailStrg(string $emailStrg): void {
+        $this-> emailStrg = $emailStrg;
+    }
+
+    public function setPasswordStrg(string $passwordStrg): void {
+        $this-> passwordStrg = $passwordStrg;
+    }
 }
 
 ?>
