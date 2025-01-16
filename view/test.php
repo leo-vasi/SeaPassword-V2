@@ -1,14 +1,14 @@
 <?php
 
-require_once __DIR__ . '/../dao/UserDAO.php';
+require_once __DIR__ . '/../controller/UserController.php';
 require_once __DIR__ . '/../dao/PlanDAO.php';
 require_once __DIR__ . '/../dao/PaymentDAO.php';
 require_once __DIR__ . '/../dao/StorageDAO.php';
 
-$userDAO = new UserDAO();
-$users = $userDAO->getAllUsers();
+$userController = new UserController();
 
 echo '<h1>All Users</h1>';
+$users = $userController->getAllUsers();
 foreach ($users as $user) {
     echo '<p>';
     echo 'ID: ' . $user->getId() . '<br>';
