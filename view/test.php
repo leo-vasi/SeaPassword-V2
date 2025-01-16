@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../controller/UserController.php';
 require_once __DIR__ . '/../controller/PlanController.php';
-require_once __DIR__ . '/../dao/PaymentDAO.php';
+require_once __DIR__ . '/../controller/PaymentController.php';
 require_once __DIR__ . '/../controller/StorageController.php';
 
 $userController = new UserController();
@@ -28,10 +28,10 @@ foreach ($plans as $plan) {
     echo '</p>';
 }
 
-$paymentDAO = new PaymentDAO();
-$payments = $paymentDAO->getAllPayments();
 
+$paymentController = new PaymentController();
 echo '<h1>All Payments</h1>';
+$payments = $paymentController->getAllPayments();
 foreach ($payments as $payment) {
     echo '<p>';
     echo 'ID: ' . $payment->getId() . '<br>';
