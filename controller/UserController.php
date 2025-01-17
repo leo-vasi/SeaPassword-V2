@@ -15,6 +15,11 @@ class UserController {
         return $this->userDAO-> getUserById($id);
     }
 
+    public function updateUser(int $id, string $name, string $email, string $password): bool {
+        $user = new User($id, $name, $email, $password);
+        return $this->userDAO->updateUser($user);
+    }
+
 }
 
 

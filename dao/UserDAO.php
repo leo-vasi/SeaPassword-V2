@@ -39,6 +39,15 @@ class UserDAO {
         return null;
     }
 
+    public function updateUser(User $user): bool {
+        $query = 'UPDATE users SET user_name = ?, user_email = ?, user_password = ? WHERE user_id = ?';
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('sssi', $user->getName(),$user->getEmail(), $user->getPassword(), $user->getId());
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
+    }
 }
+
 
 ?>

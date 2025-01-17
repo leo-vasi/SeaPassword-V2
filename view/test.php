@@ -16,7 +16,7 @@ foreach ($users as $user) {
     echo '<td>' . $user->getName() . '</td>';
     echo '<td>' . $user->getEmail() . '</td>';
     echo '<td>';
-    echo '<button>Edit</button>';
+    echo '<a href="edit_test.php?id=' . $user->getId() . '&name=' . urlencode($user->getName()) . '&email=' . urlencode($user->getEmail()) . '&password=' . urldecode($user->getPassword()) .'"><button>Edit</button></a>';
     echo '<button>Delete</button>';
     echo '</td>';
     echo '</tr>';
