@@ -57,4 +57,13 @@ class PaymentDAO {
         return $payments;
     }
 
+    public function updatePayment(Payment $payment): bool {
+        $query = 'UPDATE payments SET card_number = ?, agency = ?, security_code = ?, cpf_number = ?, card_expiration_date = ?, payment_date = ? WHERE payment_id = ?';
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('ssssssi', $payment->getCardNumber(), $payment->getAgency(), $payment->getSecurityCode(), $payment->getCpfNumber(), $payment->getCardExpiration()->format('Y-m-d'), $payment->getPaymentDate()->format('Y-m-d'), $payment->getId());
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
+    }
+
 }

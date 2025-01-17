@@ -9,14 +9,15 @@ $userController = new UserController();
 echo '<h1>All Users</h1>';
 $users = $userController->getAllUsers();
 echo '<table border="1" style="width:100%; text-align:left; margin-bottom:20px;">';
-echo '<tr><th>ID</th><th>Name</th><th>Email</th><th>Actions</th></tr>';
+echo '<tr><th>ID</th><th>Name</th><th>Email</th><th>Password</th><th>Actions</th></tr>';
 foreach ($users as $user) {
     echo '<tr>';
     echo '<td>' . $user->getId() . '</td>';
     echo '<td>' . $user->getName() . '</td>';
     echo '<td>' . $user->getEmail() . '</td>';
+    echo '<td>' . $user->getPassword() . '</td>';
     echo '<td>';
-    echo '<a href="edit_test.php?id=' . $user->getId() . '&name=' . urlencode($user->getName()) . '&email=' . urlencode($user->getEmail()) . '&password=' . urldecode($user->getPassword()) .'"><button>Edit</button></a>';
+    echo '<a href="edit_user.php?id=' . $user->getId() . '&name=' . urlencode($user->getName()) . '&email=' . urlencode($user->getEmail()) . '&password=' . urlencode($user->getPassword()) .'"><button>Edit</button></a>';
     echo '<button>Delete</button>';
     echo '</td>';
     echo '</tr>';
@@ -59,7 +60,7 @@ foreach ($payments as $payment) {
     echo '<td>' . $payment->getCardExpiration()->format('Y-m-d H:i:s') . '</td>';
     echo '<td>' . $payment->getPaymentDate()->format('Y-m-d H:i:s') . '</td>';
     echo '<td>';
-    echo '<button>Edit</button>';
+    echo '<a href="edit_payment.php?id=' . $payment->getId() . '&plan_name=' . urlencode($payment->getPlan()->getName()) . '&user_name=' . urlencode($payment->getUser()->getName()) . '&card_number=' . urldecode($payment->getCardNumber()) . '&agency=' . urlencode($payment->getAgency()) . '&security_code=' . urlencode($payment->getSecurityCode()) . '&cpf_number=' . urlencode($payment->getCpfNumber()) . '&card_expiration=' . urlencode($payment->getCardExpiration()->format('Y-m-d H:i:s')) . '&payment_date=' . urlencode($payment->getPaymentDate()->format('Y-m-d H:i:s')) .'"><button>Edit</button></a>';
     echo '<button>Delete</button>';
     echo '</td>';
     echo '</tr>';
