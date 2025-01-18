@@ -10,6 +10,10 @@ class StorageController {
     public function getAllStorages(): array {
         return $this-> storageDAO-> getAllStorages();
     }
+
+    public function getStorageById(int $id): ?Storage {
+        return $this->storageDAO->getStorageById($id);
+    }
 }
 
 
