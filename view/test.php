@@ -6,8 +6,23 @@ require_once __DIR__ . '/../controller/PaymentController.php';
 require_once __DIR__ . '/../controller/StorageController.php';
 
 $userController = new UserController();
+$searchQuery = isset($_GET['search']) ? trim($_GET['search']) : null;
+if ($searchQuery !== null && ctype_digit($searchQuery)) {
+    $user = $userController->getUserById((int)$searchQuery);
+    $users = $user ? [$user] : [];
+} else {
+    $users = $userController->getAllUsers();
+}
+
+echo '<h1>Search User by ID</h1>';
+echo '<form method="GET" action="test.php" style="margin-bottom: 20px;">';
+echo '    <label for="search">User ID: </label>';
+echo '    <input type="text" id="search" name="search" />';
+echo '    <button type="submit">Search</button>';
+echo '</form>';
+
+
 echo '<h1>All Users</h1>';
-$users = $userController->getAllUsers();
 echo '<table border="1" style="width:100%; text-align:left; margin-bottom:20px;">';
 echo '<tr><th>ID</th><th>Name</th><th>Email</th><th>Password</th><th>Actions</th></tr>';
 foreach ($users as $user) {
@@ -22,22 +37,24 @@ foreach ($users as $user) {
     echo '</td>';
     echo '</tr>';
 }
+
+if (empty($users)) {
+    echo '<tr><td colspan="5">No users found.</td></tr>';
+}
+
 echo '</table>';
 
 $planController = new PlanController();
 echo '<h1>All Plans</h1>';
 $plans = $planController->getAllPlans();
 echo '<table border="1" style="width:100%; text-align:left; margin-bottom:20px;">';
-echo '<tr><th>ID</th><th>Name</th><th>Price</th><th>Storage Quantity</th><th>Actions</th></tr>';
+echo '<tr><th>ID</th><th>Name</th><th>Price</th><th>Storage Quantity</th></tr>';
 foreach ($plans as $plan) {
     echo '<tr>';
     echo '<td>' . $plan->getId() . '</td>';
     echo '<td>' . $plan->getName() . '</td>';
     echo '<td>' . $plan->getPrice() . '</td>';
     echo '<td>' . $plan->getStorageQtd() . '</td>';
-    echo '<td>';
-    echo '<button>Edit</button>';
-    echo '<button>Delete</button>';
     echo '</td>';
     echo '</tr>';
 }

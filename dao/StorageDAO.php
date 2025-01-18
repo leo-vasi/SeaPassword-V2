@@ -29,6 +29,7 @@ class StorageDAO {
         }
         return $storages;
     }
+
 }
 
 ?>
