@@ -20,8 +20,7 @@ class UserController {
         return $this->userDAO->updateUser($user);
     }
 
-    public function createUser(string $name, string $email, string $password): bool {
-        $user = new User(null, $name, $email, $password);
+    public function createUser(User $user): bool {
         return $this->userDAO->createUser($user);
     }
 

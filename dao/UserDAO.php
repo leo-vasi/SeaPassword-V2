@@ -55,7 +55,9 @@ class UserDAO {
             die("Erro na preparação da query: " . $this->connection->error);
         }
         $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
-        $stmt->bind_param("sss", $user->getName(), $user->getEmail(), $hashedPassword);
+        $name = $user->getName();
+        $email = $user->getEmail();
+        $stmt->bind_param("sss", $name, $email, $hashedPassword);
         $success = $stmt->execute();
         $stmt->close();
         return $success;

@@ -72,6 +72,9 @@ if ($storageSearchQuery !== null && ctype_digit($storageSearchQuery)) {
 </table>
 
 <h2>Create a new User</h2>
+<a href="create_user.php">
+    <button>Click here to create a new User</button>
+</a>
 
 
 <h1>All Plans</h1>
