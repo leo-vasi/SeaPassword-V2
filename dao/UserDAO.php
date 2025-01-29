@@ -47,6 +47,22 @@ class UserDAO {
         $stmt->close();
         return $success;
     }
+
+    public function createUser(User $user): bool {
+        $query = "INSERT INTO users (user_name, user_email, user_password) VALUES (?, ?, ?)";
+        $stmt = $this->connection->prepare($query);
+        if (!$stmt) {
+            die("Erro na preparação da query: " . $this->connection->error);
+        }
+        $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
+        $stmt->bind_param("sss", $user->getName(), $user->getEmail(), $hashedPassword);
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
+    }
+
+
+
 }
 
 
