@@ -12,8 +12,8 @@ class Payment {
     private DateTime $paymentDate;
 
 
-    public function __construct(int $id, Plan $plan, User $user, string $cardNumber, string $agency, string $securityCode, string $cpfNumber, DateTime $cardExpiration, DateTime $paymentDate) {
-        $this-> id = $id;
+    public function __construct(?int $id, Plan $plan, User $user, string $cardNumber, string $agency, string $securityCode, string $cpfNumber, DateTime $cardExpiration, DateTime $paymentDate) {
+        $this-> id = $id ?? 0;
         $this-> plan = $plan;
         $this-> user = $user;
         $this-> cardNumber = $cardNumber;

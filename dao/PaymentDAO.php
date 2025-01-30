@@ -66,4 +66,27 @@ class PaymentDAO {
         return $success;
     }
 
+
+    public function createPayment(Payment $payment): bool {
+        $query = 'INSERT INTO payments (user_id, plan_id, card_number, agency, security_code, cpf_number, card_expiration_date, payment_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        $stmt = $this->connection->prepare($query);
+
+        if (!$stmt) {
+            die("Error preparing query: " . $this->connection->error);
+        } else {
+            $planId = $payment->getPlan()->getId();
+            $userId = $payment->getUser()->getId();
+            $cardNumber = $payment->getCardNumber();
+            $agency  = $payment->getAgency();
+            $securityCode = $payment->getSecurityCode();
+            $cpfNumber = $payment->getCpfNumber();
+            $cardExpiration = $payment->getCardExpiration()->format('Y-m-d');
+            $paymentDate = $payment->getPaymentDate()->format('Y-m-d');
+            $stmt->bind_param("iissssss", $planId, $userId, $cardNumber, $agency, $securityCode, $cpfNumber, $cardExpiration, $paymentDate);
+            $success = $stmt->execute();
+            $stmt->close();
+            return $success;
+        }
+    }
+
 }

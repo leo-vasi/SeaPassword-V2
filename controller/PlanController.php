@@ -11,6 +11,10 @@ class PlanController {
         return $this-> planDAO -> getAllPlans();
     }
 
+    public function getPlanById(int $id): ?Plan {
+        return $this->planDAO-> getPlanById($id);
+    }
+
 }
 
 ?>

@@ -114,6 +114,11 @@ if ($storageSearchQuery !== null && ctype_digit($storageSearchQuery)) {
     <?php endforeach; ?>
 </table>
 
+<h2>Add a new Payment</h2>
+<a href="create_payment.php">
+    <button>Click here to add a new payment</button>
+</a>
+
 <h1>Search Storage by ID</h1>
 <form method="GET" action="test.php" style="margin-bottom: 20px;">
     <label for="storage_search">Storage ID: </label>

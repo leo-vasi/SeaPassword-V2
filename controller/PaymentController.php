@@ -17,6 +17,10 @@ class PaymentController {
         $payment = new Payment($id, $plan, $user, $cardNumber, $agency, $securityCode, $cpfNumber, $cardExpiration, $paymentDate);
         return $this->paymentDAO->updatePayment($payment);
     }
+
+    public function createPayment(Payment $payment): bool {
+        return $this->paymentDAO->createPayment($payment);
+    }
 }
 
 ?>

@@ -26,6 +26,19 @@ class PlanDAO {
         }
         return $plans;
     }
+
+
+    public function getPlanById(int $id): ?Plan {
+        $query = 'SELECT * FROM plans WHERE plan_id = ?';
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($row = $result->fetch_assoc()) {
+            return new Plan($row['plan_id'], $row['plan_name'], $row['price'], $row['storage_quantity']);
+        }
+        return null;
+    }
 }
 
 ?>
