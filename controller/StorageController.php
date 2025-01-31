@@ -14,6 +14,10 @@ class StorageController {
     public function getStorageById(int $id): ?Storage {
         return $this->storageDAO->getStorageById($id);
     }
+
+    public function createStorage(Storage $storage): bool {
+        return $this->storageDAO->createStorage($storage);
+    }
 }
 
 

@@ -144,5 +144,10 @@ if ($storageSearchQuery !== null && ctype_digit($storageSearchQuery)) {
     <?php endforeach; ?>
 </table>
 
+<h2>Storage new Login data</h2>
+<a href="create_storage.php">
+    <button>Click here to store new login data</button>
+</a>
+
 </body>
 </html>

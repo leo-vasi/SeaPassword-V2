@@ -56,6 +56,25 @@ class StorageDAO {
         return $storages;
     }
 
+    public function createStorage(Storage $storage): bool {
+        $query = 'INSERT INTO storages (user_id, storage_description, storage_email, storage_password) VALUES (?, ?, ?, ?)';
+        $stmt = $this->connection->prepare($query);
+        if (!$stmt) {
+            die("Error preparing query: " . $this->connection->error);
+        } else {
+            $userId = $storage->getUser()->getId();
+            $storageDescription = $storage->getDescriptionStrg();
+            $storageEmail = $storage->getEmailStrg();
+            $storagePassword = $storage->getPasswordStrg();
+            $hashedPassword = password_hash($storagePassword, PASSWORD_DEFAULT);
+            $stmt->bind_param("isss", $userId, $storageDescription, $storageEmail, $hashedPassword);
+            $success = $stmt->execute();
+            $stmt->close();
+            return $success;
+        }
+    }
+
+
 }
 
 ?>

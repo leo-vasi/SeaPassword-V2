@@ -7,8 +7,8 @@ class Storage {
     private string $emailStrg; // Strg == Storage
     private string $passwordStrg; // Strg == Storage
 
-    public function __construct(int $id, User $user, string $descriptionStrg, string $emailStrg, string $passwordStrg) {
-        $this-> id = $id;
+    public function __construct(?int $id, User $user, string $descriptionStrg, string $emailStrg, string $passwordStrg) {
+        $this-> id = $id ?? 0;
         $this-> user = $user;
         $this-> descriptionStrg = $descriptionStrg;
         $this-> emailStrg = $emailStrg;
