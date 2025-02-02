@@ -15,6 +15,24 @@ class StorageDAO {
 
     }
 
+    public function getAllStorages(): array {
+        $query = 'SELECT * FROM storages';
+        $result = $this->connection->query($query);
+        $userDAO = new UserDAO();
+        $storages = [];
+        while ($row = $result->fetch_assoc()) {
+            $user = $userDAO->getUserById($row['user_id']);
+            $storages[] = new Storage(
+                $row['storage_id'],
+                $user,
+                $row['storage_description'],
+                $row['storage_email'],
+                $row['storage_password']
+            );
+        }
+        return $storages;
+    }
+
 
     public function getStorageById(int $id): ?Storage {
         $query = "SELECT * FROM storages WHERE storage_id = ?";
@@ -35,25 +53,6 @@ class StorageDAO {
             );
         }
         return null;
-    }
-
-
-    public function getAllStorages(): array {
-        $query = 'SELECT * FROM storages';
-        $result = $this->connection->query($query);
-        $userDAO = new UserDAO();
-        $storages = [];
-        while ($row = $result->fetch_assoc()) {
-            $user = $userDAO->getUserById($row['user_id']);
-            $storages[] = new Storage(
-                $row['storage_id'],
-                $user,
-                $row['storage_description'],
-                $row['storage_email'],
-                $row['storage_password']
-            );
-        }
-        return $storages;
     }
 
     public function createStorage(Storage $storage): bool {

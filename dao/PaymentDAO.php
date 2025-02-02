@@ -57,13 +57,52 @@ class PaymentDAO {
         return $payments;
     }
 
-    public function updatePayment(Payment $payment): bool {
-        $query = 'UPDATE payments SET card_number = ?, agency = ?, security_code = ?, cpf_number = ?, card_expiration_date = ?, payment_date = ? WHERE payment_id = ?';
+
+    public function getPaymentById(int $id): ?Payment {
+        $query = '
+            SELECT p.*,
+            u.user_id, u.user_name, u.user_email, u.user_password,
+            pl.plan_id, pl.plan_name, pl.price, pl.storage_quantity
+            FROM payments p
+            JOIN users u ON p.user_id = u.user_id
+            JOIN plans pl ON p.plan_id = pl.plan_id
+            WHERE p.payment_id = ?
+        ';
         $stmt = $this->connection->prepare($query);
-        $stmt->bind_param('ssssssi', $payment->getCardNumber(), $payment->getAgency(), $payment->getSecurityCode(), $payment->getCpfNumber(), $payment->getCardExpiration()->format('Y-m-d'), $payment->getPaymentDate()->format('Y-m-d'), $payment->getId());
-        $success = $stmt->execute();
-        $stmt->close();
-        return $success;
+        if (!$stmt) {
+            throw new Exception("Erro ao preparar a consulta: " . $this->connection->error);
+        }
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($row = $result->fetch_assoc()) {
+            $user = new User(
+                $row['user_id'],
+                $row['user_name'],
+                $row['user_email'],
+                $row['user_password']
+            );
+            $plan = new Plan(
+                $row['plan_id'],
+                $row['plan_name'],
+                $row['price'],
+                $row['storage_quantity']
+            );
+            $cardExpiration = new DateTime($row['card_expiration_date']);
+            $paymentDate = new DateTime($row['payment_date']);
+            return new Payment(
+                $row['payment_id'],
+                $plan,
+                $user,
+                $row['card_number'],
+                $row['agency'],
+                $row['security_code'],
+                $row['cpf_number'],
+                $cardExpiration,
+                $paymentDate
+            );
+        }
+        return null;
     }
 
 
@@ -88,5 +127,17 @@ class PaymentDAO {
             return $success;
         }
     }
+
+
+    public function updatePayment(Payment $payment): bool {
+        $query = 'UPDATE payments SET card_number = ?, agency = ?, security_code = ?, cpf_number = ?, card_expiration_date = ?, payment_date = ? WHERE payment_id = ?';
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('ssssssi', $payment->getCardNumber(), $payment->getAgency(), $payment->getSecurityCode(), $payment->getCpfNumber(), $payment->getCardExpiration()->format('Y-m-d'), $payment->getPaymentDate()->format('Y-m-d'), $payment->getId());
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
+    }
+
+
 
 }
