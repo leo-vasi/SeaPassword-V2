@@ -18,6 +18,11 @@ class StorageController {
     public function createStorage(Storage $storage): bool {
         return $this->storageDAO->createStorage($storage);
     }
+
+    public function updateStorage(int $id, User $user, string $descriptionStrg, string $emailStrg, string $passwordStrg): bool {
+        $storage = new Storage($id, $user, $descriptionStrg, $emailStrg, $passwordStrg);
+        return $this->storageDAO->updateStorage($storage);
+    }
 }
 
 

@@ -137,7 +137,9 @@ if ($storageSearchQuery !== null && ctype_digit($storageSearchQuery)) {
             <td><?= $storage->getEmailStrg(); ?></td>
             <td><?= $storage->getPasswordStrg(); ?></td>
             <td>
-                <button>Edit</button>
+                <a href="edit_storage.php?id=<?= $storage->getId();?>">
+                    <button>Edit</button>
+                </a>
                 <button>Delete</button>
             </td>
         </tr>

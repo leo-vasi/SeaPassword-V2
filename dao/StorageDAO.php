@@ -74,6 +74,24 @@ class StorageDAO {
         }
     }
 
+    public function updateStorage(Storage $storage): bool {
+        $query = 'UPDATE storages SET storage_description = ?, storage_email = ?, storage_password = ? WHERE storage_id = ?';
+        $stmt = $this->connection->prepare($query);
+        if (!$stmt) {
+            die("Error preparing query: " . $this->connection->error);
+        } else {
+            $storageDescription = $storage->getDescriptionStrg();
+            $storageEmail = $storage->getEmailStrg();
+            $hashedPassword = password_hash($storage->getPasswordStrg(), PASSWORD_DEFAULT);
+            $storageId = $storage->getId();
+            $stmt->bind_param("sssi", $storageDescription, $storageEmail, $hashedPassword, $storageId);
+            $success = $stmt->execute();
+            $stmt->close();
+            return $success;
+        }
+    }
+
+
 
 }
 
