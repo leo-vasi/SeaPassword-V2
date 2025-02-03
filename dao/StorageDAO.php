@@ -90,6 +90,17 @@ class StorageDAO {
         }
     }
 
+    public function deleteStorage(int $id): bool {
+        $query = "DELETE FROM storages WHERE storage_id = ?";
+        $stmt = $this->connection->prepare($query);
+        if (!$stmt) {
+            die("Error preparing query: " . $this->connection->error);
+        }
+        $stmt->bind_param("i", $id);
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
+    }
 
 
 }

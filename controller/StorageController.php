@@ -23,6 +23,11 @@ class StorageController {
         $storage = new Storage($id, $user, $descriptionStrg, $emailStrg, $passwordStrg);
         return $this->storageDAO->updateStorage($storage);
     }
+
+    public function deleteStorage(int $id): bool {
+        return $this->storageDAO->deleteStorage($id);
+    }
+
 }
 
 

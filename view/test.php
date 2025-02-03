@@ -148,7 +148,9 @@ if ($storageSearchQuery !== null && ctype_digit($storageSearchQuery)) {
                 <a href="edit_storage.php?id=<?= $storage->getId();?>">
                     <button>Edit</button>
                 </a>
-                <button>Delete</button>
+                <a href="delete_storage.php?id=<?= $storage->getId(); ?>" onclick="return confirm('Are you sure you want to delete this storage?');">
+                    <button>Delete</button>
+                </a>
             </td>
         </tr>
     <?php endforeach; ?>
