@@ -63,6 +63,19 @@ class UserDAO {
         return $success;
     }
 
+    public function deleteUser(int $id): bool {
+        $query = "DELETE FROM users WHERE user_id = ?";
+        $stmt = $this->connection->prepare($query);
+        if (!$stmt) {
+            die("Error preparing query: " . $this->connection->error);
+        }
+        $stmt->bind_param("i", $id);
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
+    }
+
+
 
 
 

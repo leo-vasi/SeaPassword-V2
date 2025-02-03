@@ -61,7 +61,9 @@ if ($storageSearchQuery !== null && ctype_digit($storageSearchQuery)) {
                 <a href="edit_user.php?id=<?= $user->getId(); ?>&name=<?= urlencode($user->getName()); ?>&email=<?= urlencode($user->getEmail()); ?>&password=<?= urlencode($user->getPassword()); ?>">
                     <button>Edit</button>
                 </a>
+                <a href="delete_user.php?id=<?= $user->getId(); ?>" onclick="return confirm('Are you sure you want to delete this user?');">
                 <button>Delete</button>
+                </a>
             </td>
         </tr>
     <?php endforeach; ?>

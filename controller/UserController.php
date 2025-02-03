@@ -24,6 +24,10 @@ class UserController {
         return $this->userDAO->createUser($user);
     }
 
+    public function deleteUser(int $id): bool {
+        return $this->userDAO->deleteUser($id);
+    }
+
 }
 
 
