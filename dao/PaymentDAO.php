@@ -138,6 +138,19 @@ class PaymentDAO {
         return $success;
     }
 
+    public function deletePayment(int $id): bool {
+        $query = "DELETE FROM payments WHERE payment_id = ?";
+        $stmt = $this->connection->prepare($query);
+        if (!$stmt) {
+            die("Error preparing query: " . $this->connection->error);
+        }
+        $stmt->bind_param("i", $id);
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
+    }
+
+
 
 
 }

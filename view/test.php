@@ -91,6 +91,10 @@ if ($storageSearchQuery !== null && ctype_digit($storageSearchQuery)) {
 </table>
 
 <h1>All Payments</h1>
+<?php if (isset($_GET['message'])): ?>
+    <p><?php echo htmlspecialchars($_GET['message']); ?></p>
+<?php endif; ?>
+
 <table border="1" style="width:100%; text-align:left; margin-bottom:20px;">
     <tr><th>ID</th><th>Plan</th><th>User</th><th>Card Number</th><th>Agency</th><th>Security Code</th><th>CPF</th><th>Card Expiration</th><th>Payment Date</th><th>Actions</th></tr>
     <?php foreach ($payments as $payment): ?>
@@ -108,7 +112,9 @@ if ($storageSearchQuery !== null && ctype_digit($storageSearchQuery)) {
                 <a href="edit_payment.php?id=<?= $payment->getId(); ?>">
                     <button>Edit</button>
                 </a>
-                <button>Delete</button>
+                <a href="delete_payment.php?id=<?= $payment->getId(); ?>" onclick="return confirm('Do you really want to delete this payment?')">
+                    <button>Delete</button>
+                </a>
             </td>
         </tr>
     <?php endforeach; ?>

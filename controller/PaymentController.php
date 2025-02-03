@@ -25,6 +25,11 @@ class PaymentController {
     public function createPayment(Payment $payment): bool {
         return $this->paymentDAO->createPayment($payment);
     }
+
+    public function deletePayment(int $id): bool {
+        return $this->paymentDAO->deletePayment($id);
+    }
+
 }
 
 ?>
