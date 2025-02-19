@@ -12,21 +12,48 @@ class UserController {
     }
 
     public function getUserById(int $id): ?User {
-        return $this->userDAO-> getUserById($id);
+        try {
+            return $this->userDAO->getUserById($id);
+        } catch (UserNotFoundException $e) {
+            echo "Erro: " . $e->getMessage();
+            return null;
+        }
     }
 
+
     public function updateUser(int $id, string $name, string $email, string $password): bool {
-        $user = new User($id, $name, $email, $password);
-        return $this->userDAO->updateUser($user);
+        try {
+            $user = $this->userDAO->getUserById($id);
+            if (!$user) {
+                throw new UserNotFoundException("Usuário com ID $id não encontrado para atualização.");
+            }
+            $user = new User($id, $name, $email, $password);
+            return $this->userDAO->updateUser($user);
+        } catch (UserNotFoundException $e) {
+            echo "Erro: " . $e->getMessage();
+            return false;
+        }
     }
+
 
     public function createUser(User $user): bool {
         return $this->userDAO->createUser($user);
     }
 
+
     public function deleteUser(int $id): bool {
-        return $this->userDAO->deleteUser($id);
+        try {
+            $user = $this->userDAO->getUserById($id);
+            if (!$user) {
+                throw new UserNotFoundException("Usuário com ID $id não encontrado para exclusão.");
+            }
+            return $this->userDAO->deleteUser($id);
+        } catch (UserNotFoundException $e) {
+            echo "Erro: " . $e->getMessage();
+            return false;
+        }
     }
+
 
 }
 

@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../config/ConnectionFactory.php';
 require_once __DIR__ . '/../model/User.php';
+require_once __DIR__ . '/../exceptions/UserNotFoundException.php';
 
 class UserDAO {
     private $connection;
@@ -36,7 +37,7 @@ class UserDAO {
         if ($row = $result->fetch_assoc()) {
             return new User($row['user_id'], $row['user_name'], $row['user_email'], $row['user_password']);
         }
-        return null;
+        throw new UserNotFoundException("Usuário com ID $id não encontrado");
     }
 
     public function createUser(User $user): bool {
@@ -55,15 +56,18 @@ class UserDAO {
     }
 
     public function updateUser(User $user): bool {
+        $this->getUserById($user->getId());
         $query = 'UPDATE users SET user_name = ?, user_email = ?, user_password = ? WHERE user_id = ?';
         $stmt = $this->connection->prepare($query);
-        $stmt->bind_param('sssi', $user->getName(),$user->getEmail(), $user->getPassword(), $user->getId());
+        $stmt->bind_param('sssi', $user->getName(), $user->getEmail(), $user->getPassword(), $user->getId());
         $success = $stmt->execute();
         $stmt->close();
         return $success;
     }
 
+
     public function deleteUser(int $id): bool {
+        $this->getUserById($id);
         $query = "DELETE FROM users WHERE user_id = ?";
         $stmt = $this->connection->prepare($query);
         if (!$stmt) {
@@ -74,9 +78,6 @@ class UserDAO {
         $stmt->close();
         return $success;
     }
-
-
-
 
 
 }
