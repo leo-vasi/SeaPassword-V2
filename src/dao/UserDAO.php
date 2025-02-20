@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../config/ConnectionFactory.php';
 require_once __DIR__ . '/../model/User.php';
 require_once __DIR__ . '/../exceptions/UserNotFoundException.php';
+require_once __DIR__ . '/../exceptions/InvalidDataException.php';
 
 class UserDAO {
     private $connection;

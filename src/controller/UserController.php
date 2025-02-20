@@ -1,5 +1,8 @@
 <?php
 require_once __DIR__ . '/../dao/UserDAO.php';
+require_once __DIR__ . '/../exceptions/UserNotFoundException.php';
+require_once __DIR__ . '/../exceptions/InvalidDataException.php';
+
 
 class UserController {
     private UserDAO $userDAO;

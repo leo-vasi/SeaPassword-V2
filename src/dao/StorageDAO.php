@@ -56,11 +56,18 @@ class StorageDAO {
     }
 
     public function createStorage(Storage $storage): bool {
-        $query = 'INSERT INTO storages (user_id, storage_description, storage_email, storage_password) VALUES (?, ?, ?, ?)';
-        $stmt = $this->connection->prepare($query);
-        if (!$stmt) {
-            die("Error preparing query: " . $this->connection->error);
-        } else {
+        try {
+            if (empty($storage->getUser()->getId()) ||
+                empty($storage->getDescriptionStrg()) ||
+                empty($storage->getEmailStrg()) ||
+                empty($storage->getPasswordStrg())) {
+                throw new InvalidDataException("Os campos não podem estar vazios.");
+            }
+            $query = 'INSERT INTO storages (user_id, storage_description, storage_email, storage_password) VALUES (?, ?, ?, ?)';
+            $stmt = $this->connection->prepare($query);
+            if (!$stmt) {
+                throw new InvalidDataException("Erro na preparação da query: " . $this->connection->error);
+            }
             $userId = $storage->getUser()->getId();
             $storageDescription = $storage->getDescriptionStrg();
             $storageEmail = $storage->getEmailStrg();
@@ -70,15 +77,24 @@ class StorageDAO {
             $success = $stmt->execute();
             $stmt->close();
             return $success;
+        } catch (InvalidDataException $e) {
+            die("Error: " . $e->getMessage());
         }
     }
 
     public function updateStorage(Storage $storage): bool {
-        $query = 'UPDATE storages SET storage_description = ?, storage_email = ?, storage_password = ? WHERE storage_id = ?';
-        $stmt = $this->connection->prepare($query);
-        if (!$stmt) {
-            die("Error preparing query: " . $this->connection->error);
-        } else {
+        try {
+            if (empty($storage->getId()) ||
+                empty($storage->getDescriptionStrg()) ||
+                empty($storage->getEmailStrg()) ||
+                empty($storage->getPasswordStrg())) {
+                throw new InvalidDataException("Os campos não podem estar vazios.");
+            }
+            $query = 'UPDATE storages SET storage_description = ?, storage_email = ?, storage_password = ? WHERE storage_id = ?';
+            $stmt = $this->connection->prepare($query);
+            if (!$stmt) {
+                throw new InvalidDataException("Erro na preparação da query: " . $this->connection->error);
+            }
             $storageDescription = $storage->getDescriptionStrg();
             $storageEmail = $storage->getEmailStrg();
             $hashedPassword = password_hash($storage->getPasswordStrg(), PASSWORD_DEFAULT);
@@ -87,6 +103,8 @@ class StorageDAO {
             $success = $stmt->execute();
             $stmt->close();
             return $success;
+        } catch (InvalidDataException $e) {
+            die("Error: " . $e->getMessage());
         }
     }
 

@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../dao/PaymentDAO.php';
+require_once __DIR__ . '/../exceptions/InvalidDataException.php';
 
 class PaymentController {
     private PaymentDAO $paymentDAO;
