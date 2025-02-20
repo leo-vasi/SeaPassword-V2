@@ -37,8 +37,17 @@ class UserController {
 
 
     public function createUser(User $user): bool {
-        return $this->userDAO->createUser($user);
+        try {
+            return $this->userDAO->createUser($user);
+        } catch (InvalidDataException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        } catch (Exception $e) {
+            echo "Unexpected Error: " . $e->getMessage();
+            return false;
+        }
     }
+
 
 
     public function deleteUser(int $id): bool {

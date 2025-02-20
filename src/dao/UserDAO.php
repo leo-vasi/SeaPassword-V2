@@ -41,29 +41,49 @@ class UserDAO {
     }
 
     public function createUser(User $user): bool {
-        $query = "INSERT INTO users (user_name, user_email, user_password) VALUES (?, ?, ?)";
-        $stmt = $this->connection->prepare($query);
-        if (!$stmt) {
-            die("Erro na preparação da query: " . $this->connection->error);
+        try {
+            if (empty($user->getName()) || empty($user->getEmail()) || empty($user->getPassword())) {
+                throw new InvalidDataException("Nome, email e senha são obrigatórios.");
+            }
+            $query = "INSERT INTO users (user_name, user_email, user_password) VALUES (?, ?, ?)";
+            $stmt = $this->connection->prepare($query);
+            if (!$stmt) {
+                throw new Exception("Erro na preparação da query: " . $this->connection->error);
+            }
+            $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
+            $name = $user->getName();
+            $email = $user->getEmail();
+            $stmt->bind_param("sss", $name, $email, $hashedPassword);
+            $success = $stmt->execute();
+            $stmt->close();
+            return $success;
+        } catch (InvalidDataException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        } catch (Exception $e) {
+            echo "Unexpected Error: " . $e->getMessage();
+            return false;
         }
-        $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
-        $name = $user->getName();
-        $email = $user->getEmail();
-        $stmt->bind_param("sss", $name, $email, $hashedPassword);
-        $success = $stmt->execute();
-        $stmt->close();
-        return $success;
     }
 
+
     public function updateUser(User $user): bool {
-        $this->getUserById($user->getId());
-        $query = 'UPDATE users SET user_name = ?, user_email = ?, user_password = ? WHERE user_id = ?';
-        $stmt = $this->connection->prepare($query);
-        $stmt->bind_param('sssi', $user->getName(), $user->getEmail(), $user->getPassword(), $user->getId());
-        $success = $stmt->execute();
-        $stmt->close();
-        return $success;
+        try {
+            if (empty($user->getName()) || empty($user->getEmail()) || empty($user->getPassword())) {
+                throw new InvalidDataException("Nome, email e senha são obrigatórios.");
+            }
+            $query = "UPDATE users SET user_name = ?, user_email = ?, user_password = ? WHERE user_id = ?";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("sssi", $user->getName(), $user->getEmail(), $user->getPassword(), $user->getId());
+            $success = $stmt->execute();
+            $stmt->close();
+            return $success;
+        } catch (InvalidDataException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
     }
+
 
 
     public function deleteUser(int $id): bool {
