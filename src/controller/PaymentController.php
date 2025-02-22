@@ -17,14 +17,30 @@ class PaymentController {
     }
 
     public function updatePayment(int $id, int $userId, int $planId, string $cardNumber, string $agency, string $securityCode, string $cpfNumber, DateTime $cardExpiration, DateTime $paymentDate): bool {
-        $user = new User($userId, '', '', '');
-        $plan = new Plan($planId, '', 0.0, 0);
-        $payment = new Payment($id, $plan, $user, $cardNumber, $agency, $securityCode, $cpfNumber, $cardExpiration, $paymentDate);
-        return $this->paymentDAO->updatePayment($payment);
+        try {
+            $user = new User($userId, '', '', '');
+            $plan = new Plan($planId, '', 0.0, 0);
+            $payment = new Payment($id, $plan, $user, $cardNumber, $agency, $securityCode, $cpfNumber, $cardExpiration, $paymentDate);
+            return $this->paymentDAO->updatePayment($payment);
+        } catch (InvalidDataException $e) {
+            echo "Erro ao atualizar pagamento: " . $e->getMessage();
+            return false;
+        } catch (Exception $e) {
+            echo "Erro inesperado: " . $e->getMessage();
+            return false;
+        }
     }
 
     public function createPayment(Payment $payment): bool {
-        return $this->paymentDAO->createPayment($payment);
+        try {
+            return $this->paymentDAO->createPayment($payment);
+        } catch (InvalidDataException $e) {
+            echo "Erro ao criar pagamento: " . $e->getMessage();
+            return false;
+        } catch (Exception $e) {
+            echo "Erro inesperado: " . $e->getMessage();
+            return false;
+        }
     }
 
     public function deletePayment(int $id): bool {
