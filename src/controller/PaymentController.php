@@ -22,26 +22,22 @@ class PaymentController {
             $plan = new Plan($planId, '', 0.0, 0);
             $payment = new Payment($id, $plan, $user, $cardNumber, $agency, $securityCode, $cpfNumber, $cardExpiration, $paymentDate);
             return $this->paymentDAO->updatePayment($payment);
-        } catch (InvalidDataException $e) {
+        } catch (InvalidDataException | Exception $e) {
             echo "Erro ao atualizar pagamento: " . $e->getMessage();
-            return false;
-        } catch (Exception $e) {
-            echo "Erro inesperado: " . $e->getMessage();
             return false;
         }
     }
 
+
     public function createPayment(Payment $payment): bool {
         try {
             return $this->paymentDAO->createPayment($payment);
-        } catch (InvalidDataException $e) {
+        } catch (InvalidDataException | Exception $e) {
             echo "Erro ao criar pagamento: " . $e->getMessage();
-            return false;
-        } catch (Exception $e) {
-            echo "Erro inesperado: " . $e->getMessage();
             return false;
         }
     }
+
 
     public function deletePayment(int $id): bool {
         return $this->paymentDAO->deletePayment($id);

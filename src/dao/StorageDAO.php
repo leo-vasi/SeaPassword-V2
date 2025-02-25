@@ -78,7 +78,7 @@ class StorageDAO {
             $stmt->close();
             return $success;
         } catch (InvalidDataException $e) {
-            die("Error: " . $e->getMessage());
+            throw new InvalidDataException("Erro ao criar armazenamento: " . $e->getMessage());
         }
     }
 

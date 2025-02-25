@@ -108,61 +108,56 @@ class PaymentDAO {
 
 
     public function createPayment(Payment $payment): bool {
-        try {
-            if (empty($payment->getCardNumber()) || empty($payment->getAgency()) || empty($payment->getSecurityCode()) || empty($payment->getCpfNumber())) {
-                throw new InvalidDataException("Os dados do cartão estão incompletos ou inválidos.");
-            }
-            $query = 'INSERT INTO payments (user_id, plan_id, card_number, agency, security_code, cpf_number, card_expiration_date, payment_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-            $stmt = $this->connection->prepare($query);
-            if (!$stmt) {
-                throw new InvalidDataException("Erro ao preparar a query: " . $this->connection->error);
-            }
-            $planId = $payment->getPlan()->getId();
-            $userId = $payment->getUser()->getId();
-            $cardNumber = $payment->getCardNumber();
-            $agency  = $payment->getAgency();
-            $securityCode = $payment->getSecurityCode();
-            $cpfNumber = $payment->getCpfNumber();
-            $cardExpiration = $payment->getCardExpiration()->format('Y-m-d');
-            $paymentDate = $payment->getPaymentDate()->format('Y-m-d');
-            $stmt->bind_param("iissssss", $planId, $userId, $cardNumber, $agency, $securityCode, $cpfNumber, $cardExpiration, $paymentDate);
-            $success = $stmt->execute();
-            $stmt->close();
-            return $success;
-        } catch (InvalidDataException $e) {
-            echo "Erro ao criar pagamento: " . $e->getMessage();
-            return false;
+        if (empty($payment->getCardNumber()) || empty($payment->getAgency()) || empty($payment->getSecurityCode()) || empty($payment->getCpfNumber())) {
+            throw new InvalidDataException("Os dados do cartão estão incompletos ou inválidos.");
         }
+        $query = 'INSERT INTO payments (user_id, plan_id, card_number, agency, security_code, cpf_number, card_expiration_date, payment_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        $stmt = $this->connection->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Erro ao preparar a query: " . $this->connection->error);
+        }
+        $stmt->bind_param(
+            "iissssss",
+            $payment->getUser()->getId(),
+            $payment->getPlan()->getId(),
+            $payment->getCardNumber(),
+            $payment->getAgency(),
+            $payment->getSecurityCode(),
+            $payment->getCpfNumber(),
+            $payment->getCardExpiration()->format('Y-m-d'),
+            $payment->getPaymentDate()->format('Y-m-d')
+        );
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
     }
+
 
 
     public function updatePayment(Payment $payment): bool {
-        try {
-            if (empty($payment->getCardNumber()) || empty($payment->getAgency()) || empty($payment->getSecurityCode()) || empty($payment->getCpfNumber())) {
-                throw new InvalidDataException("Os dados do cartão estão incompletos ou inválidos.");
-            }
-            $query = 'UPDATE payments SET card_number = ?, agency = ?, security_code = ?, cpf_number = ?, card_expiration_date = ?, payment_date = ? WHERE payment_id = ?';
-            $stmt = $this->connection->prepare($query);
-            if (!$stmt) {
-                throw new InvalidDataException("Erro ao preparar a query: " . $this->connection->error);
-            }
-            $stmt->bind_param('ssssssi',
-                $payment->getCardNumber(),
-                $payment->getAgency(),
-                $payment->getSecurityCode(),
-                $payment->getCpfNumber(),
-                $payment->getCardExpiration()->format('Y-m-d'),
-                $payment->getPaymentDate()->format('Y-m-d'),
-                $payment->getId()
-            );
-            $success = $stmt->execute();
-            $stmt->close();
-            return $success;
-        } catch (InvalidDataException $e) {
-            echo "Erro ao atualizar pagamento: " . $e->getMessage();
-            return false;
+        if (empty($payment->getCardNumber()) || empty($payment->getAgency()) || empty($payment->getSecurityCode()) || empty($payment->getCpfNumber())) {
+            throw new InvalidDataException("Os dados do cartão estão incompletos ou inválidos.");
         }
+        $query = 'UPDATE payments SET card_number = ?, agency = ?, security_code = ?, cpf_number = ?, card_expiration_date = ?, payment_date = ? WHERE payment_id = ?';
+        $stmt = $this->connection->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Erro ao preparar a query: " . $this->connection->error);
+        }
+        $stmt->bind_param(
+            'ssssssi',
+            $payment->getCardNumber(),
+            $payment->getAgency(),
+            $payment->getSecurityCode(),
+            $payment->getCpfNumber(),
+            $payment->getCardExpiration()->format('Y-m-d'),
+            $payment->getPaymentDate()->format('Y-m-d'),
+            $payment->getId()
+        );
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
     }
+
 
     public function deletePayment(int $id): bool {
         $query = "DELETE FROM payments WHERE payment_id = ?";

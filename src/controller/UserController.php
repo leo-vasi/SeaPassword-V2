@@ -26,27 +26,21 @@ class UserController {
 
     public function updateUser(int $id, string $name, string $email, string $password): bool {
         try {
-            $user = $this->userDAO->getUserById($id);
-            if (!$user) {
-                throw new UserNotFoundException("Usuário com ID $id não encontrado para atualização.");
-            }
             $user = new User($id, $name, $email, $password);
             return $this->userDAO->updateUser($user);
-        } catch (UserNotFoundException $e) {
+        } catch (UserNotFoundException | InvalidDataException $e) {
             echo "Erro: " . $e->getMessage();
             return false;
         }
     }
 
 
+
     public function createUser(User $user): bool {
         try {
             return $this->userDAO->createUser($user);
-        } catch (InvalidDataException $e) {
-            echo "Error: " . $e->getMessage();
-            return false;
-        } catch (Exception $e) {
-            echo "Unexpected Error: " . $e->getMessage();
+        } catch (InvalidDataException | Exception $e) {
+            echo "Erro ao criar usuário: " . $e->getMessage();
             return false;
         }
     }
@@ -55,16 +49,13 @@ class UserController {
 
     public function deleteUser(int $id): bool {
         try {
-            $user = $this->userDAO->getUserById($id);
-            if (!$user) {
-                throw new UserNotFoundException("Usuário com ID $id não encontrado para exclusão.");
-            }
             return $this->userDAO->deleteUser($id);
         } catch (UserNotFoundException $e) {
             echo "Erro: " . $e->getMessage();
             return false;
         }
     }
+
 
 
 }
