@@ -23,7 +23,7 @@
             <button type="submit" id="button_login">Entrar</button>
         </form>
         ____________________________________________________
-        <a href="\seapassword\view\registrar.php" class="sem_conta">Ainda não tem conta? Cadastrar.</a>
+        <a href="../view/cadastro.php" class="sem_conta">Ainda não tem conta? Cadastrar.</a>
     </div>
 </div>
     
