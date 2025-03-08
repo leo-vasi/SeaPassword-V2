@@ -56,9 +56,33 @@ class UserController {
         }
     }
 
-
-
+    public function login() {
+        session_start();
+        $data = json_decode(file_get_contents("php://input"), true);
+        if (!isset($data['email']) || !isset($data['password'])) {
+            echo json_encode(["error" => "Campos obrigatórios não preenchidos"]);
+            return;
+        }
+        $email = $data['email'];
+        $password = $data['password'];
+        $user = $this->userDAO->authenticateUser($email, $password);
+        if ($user) {
+            $_SESSION["id_usuario"] = $user["id"];
+            $_SESSION["email"] = $user["email"];
+            echo json_encode(["success" => "Login realizado com sucesso"]);
+        } else {
+            echo json_encode(["error" => "Email ou senha incorretos"]);
+        }
+    }
 }
+
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $controller = new UserController();
+    $controller->login();
+}
+
+
 
 
 ?>
